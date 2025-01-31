@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Futuristic Poem</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap');
+
+        body {
+            margin: 0;
+            padding: 0;
+            background: radial-gradient(circle, #001d3d, #000814);
+            color: #00d4ff;
+            font-family: 'Orbitron', sans-serif;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            overflow: hidden;
+        }
+
+        .container {
+            width: 80%;
+            max-width: 900px;
+            text-align: center;
+            background: rgba(0, 0, 0, 0.7);
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgba(0, 212, 255, 0.6);
+        }
+
+        h1 {
+            font-size: 2rem;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            color: #ffcc00;
+        }
+
+        .poem {
+            font-size: 1.2rem;
+            line-height: 1.8;
+            white-space: pre-wrap;
+            text-align: left;
+            padding: 15px;
+            background: rgba(255, 255, 255, 0.05);
+            border-left: 5px solid #ffcc00;
+            border-radius: 5px;
+        }
+
+        .hidden {
+            opacity: 0;
+            transition: opacity 1s ease-in;
+        }
+
+        .stars {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            background: url('https://source.unsplash.com/1920x1080/?stars,galaxy,universe') no-repeat center center;
+            background-size: cover;
+            opacity: 0.3;
+            z-index: -1;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                width: 95%;
+                padding: 15px;
+            }
+
+            h1 {
+                font-size: 1.5rem;
+            }
+
+            .poem {
+                font-size: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="stars"></div>
+    <div class="container">
+        <h1>Cosmic Verses</h1>
+        <div class="poem" id="poem"></div>
+    </div>
+    
+    <script>
+        const poemLines = [
+            "The local distribution of still active igneous mountain is given of Keplers views on the general design, we thus find the Eagle.",
+            "The great services and his one toe.",
+            "Sometimes we have so fallen if the relative sizes of Saturn Enceladus was detected...",
+            "They are parted from the authorities, he was careful to add even our greatest access of solar emission...",
+            "The earth is, on the basis of a Sitting Bull when we examine the other hand, phenomena of cloud shadows the solar system.",
+            "Limiting itself to my readers can get to slowly changing conditions...",
+            "There is little but Prowes elaborate Nicolaus Coppernicus, and by it the most part been left blank..."
+        ];
+
+        let index = 0;
+        function showNextLine() {
+            if (index < poemLines.length) {
+                const line = document.createElement("p");
+                line.textContent = poemLines[index];
+                line.classList.add("hidden");
+                document.getElementById("poem").appendChild(line);
+                setTimeout(() => {
+                    line.style.opacity = "1";
+                }, 100);
+                index++;
+                setTimeout(showNextLine, 1500);
+            }
+        }
+
+        setTimeout(showNextLine, 1500);
+    </script>
+</body>
+</html>
