@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.5">
     <title>Futuristic Poem</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap');
@@ -18,6 +18,7 @@
             justify-content: center;
             min-height: 100vh;
             overflow: hidden;
+            position: relative;
         }
 
         .container {
@@ -28,6 +29,11 @@
             padding: 20px;
             border-radius: 10px;
             box-shadow: 0 0 15px rgba(0, 212, 255, 0.6);
+            position: relative;
+            z-index: 2;
+            opacity: 0;
+            transform: scale(0.8);
+            transition: opacity 1.5s ease-out, transform 1.5s ease-out;
         }
 
         h1 {
@@ -46,75 +52,85 @@
             background: rgba(255, 255, 255, 0.05);
             border-left: 5px solid #ffcc00;
             border-radius: 5px;
+            opacity: 1;
+            transition: opacity 2s ease-in;
         }
 
         .hidden {
             opacity: 0;
-            transition: opacity 1s ease-in;
+            transition: opacity 0.5s ease-in;
         }
 
-        .stars {
-            position: fixed;
-            width: 100%;
-            height: 100%;
-            top: 0;
-            left: 0;
-            background: url('https://source.unsplash.com/1920x1080/?stars,galaxy,universe') no-repeat center center;
-            background-size: cover;
-            opacity: 0.3;
-            z-index: -1;
-        }
-
-        @media (max-width: 768px) {
-            .container {
-                width: 95%;
-                padding: 15px;
-            }
-
-            h1 {
-                font-size: 1.5rem;
-            }
-
-            .poem {
-                font-size: 1rem;
-            }
+        .fade-out {
+            opacity: 0;
+            transition: opacity 2s ease-out;
         }
     </style>
 </head>
 <body>
-    <div class="stars"></div>
-    <div class="container">
+    <div class="container" id="container">
         <h1>Cosmic Verses</h1>
         <div class="poem" id="poem"></div>
     </div>
     
     <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            setTimeout(() => {
+                document.getElementById("container").style.opacity = "1";
+                document.getElementById("container").style.transform = "scale(1)";
+            }, 500);
+        });
+
         const poemLines = [
             "The local distribution of still active igneous mountain is given of Keplers views on the general design, we thus find the Eagle.",
+            "",
             "The great services and his one toe.",
+            "",
             "Sometimes we have so fallen if the relative sizes of Saturn Enceladus was detected...",
+            "",
             "They are parted from the authorities, he was careful to add even our greatest access of solar emission...",
+            "",
             "The earth is, on the basis of a Sitting Bull when we examine the other hand, phenomena of cloud shadows the solar system.",
+            "",
             "Limiting itself to my readers can get to slowly changing conditions...",
+            "",
             "There is little but Prowes elaborate Nicolaus Coppernicus, and by it the most part been left blank..."
         ];
 
-        let index = 0;
-        function showNextLine() {
-            if (index < poemLines.length) {
-                const line = document.createElement("p");
-                line.textContent = poemLines[index];
-                line.classList.add("hidden");
-                document.getElementById("poem").appendChild(line);
-                setTimeout(() => {
-                    line.style.opacity = "1";
-                }, 100);
-                index++;
-                setTimeout(showNextLine, 1500);
-            }
-        }
+        function showPoem() {
+            const poemContainer = document.getElementById("poem");
+            poemContainer.innerHTML = "";
+            let delay = 0;
 
-        setTimeout(showNextLine, 1500);
+            poemLines.forEach((line, lineIndex) => {
+                const lineContainer = document.createElement("div");
+                lineContainer.classList.add("line-container");
+                poemContainer.appendChild(lineContainer);
+
+                const words = line.split(" ");
+                words.forEach((word, wordIndex) => {
+                    const span = document.createElement("span");
+                    span.textContent = word + " ";
+                    span.classList.add("hidden");
+                    lineContainer.appendChild(span);
+
+                    setTimeout(() => {
+                        span.classList.remove("hidden");
+                    }, delay + wordIndex * 150);
+                });
+                delay += words.length * 150 + 500;
+            });
+
+            setTimeout(() => {
+                poemContainer.classList.add("fade-out");
+                setTimeout(() => {
+                    poemContainer.classList.remove("fade-out");
+                    showPoem();
+                }, 2000);
+            }, delay + 5000);
+        }
+        
+        setTimeout(showPoem, 1500);
     </script>
 </body>
 </html>
